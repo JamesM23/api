@@ -78,10 +78,41 @@ app.delete('/chirps/:text', function (req, res) {
         });
 })
 
-app.update('/users/:email', function (req, res) {
-    connection.query('update from user WHERE  email = ?',
-        [req.params.id], function (error, results, fields) {
+app.put('/users/:email', function (req, res) {
+    connection.query('SELECT * from users', function (error, results, fields) {
+        app.put('email', { name: 'Larry' }, function (err, html) {
             res.send(results);
             if (error) throw error.message
         });
     })
+})
+
+router.post("/", (req, res) => {
+    let id = req.body.id
+    let name = req.body.name
+    let email = req.body.email
+    let password = req.body.password
+    connection.query("INSERT INTO users (id, name, email, password) VALUES(?, ?, ?, ?)", [id, name, email, password],
+        function (err, results, fields) {
+            if (err) {
+                connection.end();
+                return console.log(err)
+            }
+            res.send(results)
+        })
+});
+
+router.post("/", (req, res) => {
+    let id = req.body.id
+    let text = req.body.text
+    let userid = req.body.userid
+    let location = req.body.location
+    connection.query("INSERT INTO chirps (id, userid, text, location) VALUES(?,?, ?, ?)", [id, userid, text, location],
+        function (err, results, fields) {
+            if(err) {
+                connection.end();
+                return console.log(err)
+            }
+            res.send(results)
+        })
+});
