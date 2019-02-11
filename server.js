@@ -61,3 +61,27 @@ app.delete('/users/:id', function (req, res) {
         });
 })
 
+app.delete('/users/:id', function (req, res) {
+    connection.query('DELETE from users WHERE  id = ?',
+        [req.params.id], function (error, results, fields) {
+            res.send(results);
+            if (error) throw error.message
+
+        });
+})
+app.delete('/chirps/:text', function (req, res) {
+    connection.query('DELETE from chirps WHERE  text = ?',
+        [req.params.id], function (error, results, fields) {
+            res.send(results);
+            if (error) throw error.message
+
+        });
+})
+
+app.update('/users/:email', function (req, res) {
+    connection.query('update from user WHERE  email = ?',
+        [req.params.id], function (error, results, fields) {
+            res.send(results);
+            if (error) throw error.message
+        });
+    })
